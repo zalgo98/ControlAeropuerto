@@ -21,13 +21,12 @@ public class Control extends javax.swing.JFrame {
     private Actualizar actuRodajeMa;
     private Actualizar actuTallerMa;
     private Actualizar actuPuertaMa;
-    private Actualizar actuPistaMa;
     private Actualizar actuHangarBa;
     private Actualizar actuEstaBa;
     private Actualizar actuRodajeBa;
     private Actualizar actuTallerBa;
     private Actualizar actuPuertaBa;
-    private Actualizar actuPistaBa;
+    
     
 
 
@@ -73,8 +72,12 @@ public class Control extends javax.swing.JFrame {
                 actuRodajeMa.start();
                 
                 for (int i = 0; i < aeropuerto_Madrid.getPistas().size(); i++) {
-                   actuPistaMa= new Actualizar(aeropuerto_Madrid.getPistas().get(i).getAvionEnPista(), pistas[i]);
-                   actuPistaMa.start();
+                   Avion avion = aeropuerto_Madrid.getPistas().get(i).getAvionAsignado();
+                    if(avion!=null){
+                        pistas[i].setText(avion.getNombre());
+                    }else{
+                        pistas[i].setText("");
+                    }
                 }
                 actuTallerMa= new Actualizar(aeropuerto_Madrid.getTaller().getAvionesEnIspeccion(), Taller);
                 actuTallerMa.start();
@@ -107,8 +110,12 @@ public class Control extends javax.swing.JFrame {
                 actuRodajeBa= new Actualizar(aeropuerto_Barcelona.getAreaRodaje().getAvionEmbarques(), A_Rodaje1);
                 actuRodajeBa.start();
                 for (int i = 0; i < aeropuerto_Barcelona.getPistas().size(); i++) {
-                    actuPistaBa= new Actualizar(aeropuerto_Barcelona.getPistas().get(i).getAvionEnPista(), pistasB[i]);
-                    actuPistaBa.start();
+                  Avion avion = aeropuerto_Barcelona.getPistas().get(i).getAvionAsignado();
+                    if(avion!=null){
+                        pistasB[i].setText(avion.getNombre());
+                    }else{
+                        pistasB[i].setText("");
+                    }
                 }
                 actuTallerBa= new Actualizar(aeropuerto_Barcelona.getTaller().getAvionesEnIspeccion(), Taller2);
                 actuTallerBa.start();
