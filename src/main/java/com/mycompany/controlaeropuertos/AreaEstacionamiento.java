@@ -14,6 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class AreaEstacionamiento {
     private List<Avion> avionesEnEspera;
+    private Control control;
 
     public AreaEstacionamiento() {
         avionesEnEspera = new ArrayList<>();
@@ -32,6 +33,13 @@ public class AreaEstacionamiento {
         List<PuertaEmbarque> puertasEmbarque = avion.getAeropuertoOrigen().getPuertasEmbarque();// Obtiene las puertas de embarque del aeropuerto de origen
         PuertaEmbarque puerta = null;
         Registro.logEvent(" [ "+ avion.getAeropuertoOrigen().getNombre()+ " ] " +"Esperando puerta disponible en area de estacionamiento " + avion.Id());
+        PuertaEmbarque puertaEmbarqueReservada = avion.getAeropuertoOrigen().getPuertaEmbarque();
+       
+        if (puertaEmbarqueReservada.asignarSiEstaDisponible(avion)) {
+            puerta = puertaEmbarqueReservada;
+            int idpuerta= puerta.getIdPuertaEmbarque()+1;
+            Registro.logEvent(" [ "+ avion.getAeropuertoOrigen().getNombre()+ " ] " +"Puerta " + idpuerta + " asignada al avión " + avion.Id());
+        } else {
         while (puerta == null) { // Mientras no haya puertas disponibles
             for (PuertaEmbarque pe : puertasEmbarque) {
                 if (pe.asignarSiEstaDisponible(avion)) {
@@ -44,6 +52,7 @@ public class AreaEstacionamiento {
                 }
             }
         }
+    }
         wait(1600);
         liberarAvion();
         return puerta;

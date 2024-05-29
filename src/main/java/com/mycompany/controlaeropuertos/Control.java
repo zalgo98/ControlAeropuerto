@@ -4,7 +4,7 @@
  */
 package com.mycompany.controlaeropuertos;
 
-import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -14,8 +14,21 @@ import javax.swing.JTextField;
  */
 public class Control extends javax.swing.JFrame {
     
-    private Aeropuerto aeropuerto_Madrid;
-    private Aeropuerto aeropuerto_Barcelona;
+    private final Aeropuerto aeropuerto_Madrid;
+    private final Aeropuerto aeropuerto_Barcelona;
+    private Actualizar actuHangarMa;
+    private Actualizar actuEstaMa;
+    private Actualizar actuRodajeMa;
+    private Actualizar actuTallerMa;
+    private Actualizar actuPuertaMa;
+    private Actualizar actuPistaMa;
+    private Actualizar actuHangarBa;
+    private Actualizar actuEstaBa;
+    private Actualizar actuRodajeBa;
+    private Actualizar actuTallerBa;
+    private Actualizar actuPuertaBa;
+    private Actualizar actuPistaBa;
+    
 
 
     public Control(Aeropuerto aeropuerto_Madrid, Aeropuerto aeropuerto_Barcelona) {
@@ -37,7 +50,7 @@ public class Control extends javax.swing.JFrame {
 
 
       // Madrid
-        synchronized(aeropuerto_Madrid){
+        
                 Num_pasajeros.setText(String.valueOf(aeropuerto_Madrid.getPasajerosDisponibles()));
                 for (Autobus bus : aeropuerto_Madrid.getAutobuses()) {
                     if(bus.getIda()){
@@ -46,35 +59,28 @@ public class Control extends javax.swing.JFrame {
                         actualizarBus(bus, Bus_ciudad);
                     }
                 }
-                actualizarAvion(aeropuerto_Madrid.getHangar().getAviones(), Hangar);
-                actualizarAvion(aeropuerto_Madrid.getTaller().getAvionesEnIspeccion(),Taller);
-                actualizarAvion(aeropuerto_Madrid.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento);
-
+                actuHangarMa= new Actualizar(aeropuerto_Madrid.getHangar().getAviones(), Hangar);
+                actuHangarMa.start();
+                actuEstaMa= new Actualizar(aeropuerto_Madrid.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento);
+                actuEstaMa.start();
                 for (int i = 0; i < puertas.length; i++) {
                     PuertaEmbarque puerta = aeropuerto_Madrid.getPuertasEmbarque().get(i);
-                    
-                    Avion avion = puerta.getAvionAsignado();
-                    if (avion != null) {
-                        puertas[i].setText(avion.getNombre());
-
-                    } else {
-                        puertas[i].setText("");
-                    }
-                
+                    actuPuertaMa= new Actualizar(puerta.getAvionesEmbarque(), puertas[i]);
+                    actuPuertaMa.start();           
                 }
-                actualizarAvion(aeropuerto_Madrid.getAreaRodaje().getAvionEmbarques(), A_Rodaje);
+                
+                actuRodajeMa= new Actualizar(aeropuerto_Madrid.getAreaRodaje().getAvionEmbarques(), A_Rodaje);
+                actuRodajeMa.start();
                 
                 for (int i = 0; i < aeropuerto_Madrid.getPistas().size(); i++) {
-                    Avion avion = aeropuerto_Madrid.getPistas().get(i).getAvionAsignado();
-                    if (avion != null && i < pistas.length) {
-                        pistas[i].setText(avion.Id());
-                    } else {
-                        pistas[i].setText("");
-                    }
+                   actuPistaMa= new Actualizar(aeropuerto_Madrid.getPistas().get(i).getAvionEnPista(), pistas[i]);
+                   actuPistaMa.start();
                 }
-                actualizarAvion(aeropuerto_Madrid.getTaller().getAvionesEnIspeccion(),Taller);
+                actuTallerMa= new Actualizar(aeropuerto_Madrid.getTaller().getAvionesEnIspeccion(), Taller);
+                actuTallerMa.start();
+            
                 
-            }
+            
              // Barcelona
 
             synchronized(aeropuerto_Barcelona){
@@ -89,34 +95,30 @@ public class Control extends javax.swing.JFrame {
                     actualizarBus(bus, BusCBarcelona);
                 }
                 }
-                actualizarAvion(aeropuerto_Barcelona.getHangar().getAviones(), Hangar1);
-                actualizarAvion(aeropuerto_Barcelona.getTaller().getAvionesEnIspeccion(),Taller2);
-                actualizarAvion(aeropuerto_Barcelona.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento1);
+                actuHangarBa= new Actualizar(aeropuerto_Barcelona.getHangar().getAviones(), Hangar1);
+                actuHangarBa.start();
+                actuEstaBa= new Actualizar(aeropuerto_Barcelona.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento1);
+                actuEstaBa.start();
                 for (int i = 0; i < puertasB.length; i++) {
                     PuertaEmbarque puerta = aeropuerto_Barcelona.getPuertasEmbarque().get(i);
-                    Avion avion = puerta.getAvionAsignado();
-                    if (avion != null) {
-                        puertasB[i].setText(avion.getNombre());
-                    } else {
-                        puertasB[i].setText("");
-                    }
+                    actuPuertaBa= new Actualizar(puerta.getAvionesEmbarque(), puertasB[i]);
+                    actuPuertaBa.start();           
                 }
-                actualizarAvion(aeropuerto_Barcelona.getAreaRodaje().getAvionEmbarques(), A_Rodaje1);
-                
+                actuRodajeBa= new Actualizar(aeropuerto_Barcelona.getAreaRodaje().getAvionEmbarques(), A_Rodaje1);
+                actuRodajeBa.start();
                 for (int i = 0; i < aeropuerto_Barcelona.getPistas().size(); i++) {
-                    Avion avion = aeropuerto_Barcelona.getPistas().get(i).getAvionAsignado();
-                    if (avion != null) {
-                        pistasB[i].setText(avion.getNombre());
-                    } else {
-                        pistasB[i].setText("");
-                    }
+                    actuPistaBa= new Actualizar(aeropuerto_Barcelona.getPistas().get(i).getAvionEnPista(), pistasB[i]);
+                    actuPistaBa.start();
                 }
+                actuTallerBa= new Actualizar(aeropuerto_Barcelona.getTaller().getAvionesEnIspeccion(), Taller2);
+                actuTallerBa.start();
+            }
 
                 // aerovias
                 M_B.setText(aeropuerto_Madrid.getAerovia().avionesAerolinea());
                 B_M.setText(aeropuerto_Barcelona.getAerovia().avionesAerolinea());
 
-            }
+            
     }
     public void actualizarBus(Autobus bus, JTextField textoBus) {
     if (bus != null) {
@@ -129,20 +131,6 @@ public class Control extends javax.swing.JFrame {
         }
     }
 }
-    public  void actualizarAvion(List<Avion> aviones, JTextField label) {
-
-    StringBuilder nombresAviones = new StringBuilder();
-    for (Avion avion : aviones) {
-        if (avion != null) {
-            nombresAviones.append(avion.Id()).append(", ");
-        } else {
-            nombresAviones.append("null").append(", ");
-        }
-    }
-    label.setText(nombresAviones.toString());
-    nombresAviones.setLength(0); // Limpiar el StringBuilder
-}
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

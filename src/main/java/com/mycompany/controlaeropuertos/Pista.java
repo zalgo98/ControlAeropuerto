@@ -4,6 +4,8 @@
  */
 package com.mycompany.controlaeropuertos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -18,6 +20,7 @@ public class Pista {
     private int idPista;
     private Avion avionAsignado;
     private final ReentrantLock lock;
+    private List<Avion> avionEnPista;
 
     /**
      * Crea una nueva instancia de la clase Pista.
@@ -28,6 +31,7 @@ public class Pista {
         this.disponible = true;
         this.lock = new ReentrantLock();
         this.idPista = idPista;
+        avionEnPista= new ArrayList<>();
     }
 
   
@@ -38,6 +42,7 @@ public class Pista {
     public synchronized void ocuparPista(Avion avion) {//metodo que ocupa la pista
         lock.lock();
         try {
+            avionEnPista.add(avion);
             this.avionAsignado=avion;
             disponible = false;
         } finally {
@@ -48,6 +53,7 @@ public class Pista {
     public synchronized void liberarPista() {//metodo que libera la pista
         lock.lock();
         try {
+            avionEnPista.remove(avionAsignado);
             avionAsignado = null;
             disponible = true;
         } finally {
@@ -81,4 +87,7 @@ public class Pista {
     public void setAvionAsignado(Avion avionAsignado) {//metodo que establece el avion asignado a la pista
         this.avionAsignado = avionAsignado;
     }
+    public List<Avion> getAvionEnPista() {//metodo que devuelve el avion en la pista
+        return avionEnPista;
+    } 
 }

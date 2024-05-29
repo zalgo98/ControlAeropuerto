@@ -4,6 +4,8 @@
  */
 package com.mycompany.controlaeropuertos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 /**
@@ -15,10 +17,12 @@ public class PuertaEmbarque {
     private Avion avionAsignado;
     private int idPuertaEmbarque;
     private  ReentrantLock lock = new ReentrantLock();
+    private List<Avion> avionesEmbarque;
 
 
     public PuertaEmbarque(int idPuertaEmbarque) {
         this.idPuertaEmbarque = idPuertaEmbarque;
+        avionesEmbarque = new ArrayList<>(); 
     }
     
     public boolean estaDisponible() {
@@ -29,10 +33,8 @@ public class PuertaEmbarque {
             lock.unlock();  // Libera el bloqueo, permitiendo que otros hilos accedan a la puerta
         }
     }
-    public synchronized boolean asignarSiEstaDisponible(Avion avion) {
-        
-        if (estaDisponible()) {
-            // Asigna la puerta al avión aquí
+    public synchronized boolean asignarSiEstaDisponible(Avion avion) {       
+        if (estaDisponible() ) {
             disponible = false;
             return true;
         } else {
@@ -68,7 +70,6 @@ public class PuertaEmbarque {
             intentos++;
             Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001)); // Tiempo de espera antes de admitir más pasajeros
         }
-        wait(500);
         
         notifyAll();
     } catch (InterruptedException e) {
@@ -96,7 +97,9 @@ public class PuertaEmbarque {
     }
     }
     public void liberarPuerta(PuertaEmbarque puerta) {
+        avionesEmbarque.remove(avionAsignado);
         disponible = true;
+        avionAsignado = null;
     }
 
     public int getIdPuertaEmbarque() {
@@ -111,6 +114,7 @@ public class PuertaEmbarque {
         return avionAsignado;
     }
     public void setAvionAsignado(Avion avionAsignado) {
+        avionesEmbarque.add(avionAsignado);
         this.avionAsignado = avionAsignado;
     }
 
@@ -121,5 +125,9 @@ public class PuertaEmbarque {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+    public List<Avion> getAvionesEmbarque() {
+        return avionesEmbarque;
+    }
+    
     
 }
