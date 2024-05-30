@@ -33,7 +33,7 @@ public class PuertaEmbarque {
             lock.unlock();  // Libera el bloqueo, permitiendo que otros hilos accedan a la puerta
         }
     }
-    public synchronized boolean asignarSiEstaDisponible(Avion avion) {       
+    public synchronized boolean asignarSiEstaDisponible(Avion avion) { //Metodo para comprobar si esta disponible la puerta      
         if (estaDisponible() ) {
             disponible = false;
             return true;
@@ -41,7 +41,8 @@ public class PuertaEmbarque {
             return false;
         }
     }
-
+    //Metodo para embarcar los pasajeros
+    
     public synchronized void embarcarPasajeros(Aeropuerto aeropuerto) throws InterruptedException {
        try{
         int intentos = 0;
@@ -77,6 +78,7 @@ public class PuertaEmbarque {
     }
     }
     
+    //Metodo para desembarcar los pasajeros
 
     public synchronized void desembarcarAvion(Aeropuerto aeropuerto) {
         try {
@@ -96,24 +98,24 @@ public class PuertaEmbarque {
         e.printStackTrace();
     }
     }
-    public void liberarPuerta(PuertaEmbarque puerta) {
+    public void liberarPuerta(PuertaEmbarque puerta) { //Metodo que libera la puerta
         avionesEmbarque.remove(avionAsignado);
         disponible = true;
         avionAsignado = null;
     }
 
-    public int getIdPuertaEmbarque() {
+    public int getIdPuertaEmbarque() { //Metodo para obtener el id de la puerta
         return idPuertaEmbarque;
     }
 
-    public void setIdPuertaEmbarque(int idPuertaEmbarque) {
+    public void setIdPuertaEmbarque(int idPuertaEmbarque) { //Metodo para asignar el id a la puerta
         this.idPuertaEmbarque = idPuertaEmbarque;
     }
 
-    public synchronized Avion getAvionAsignado() {
+    public synchronized Avion getAvionAsignado() { //Metodo para ver que avion hay asignado
         return avionAsignado;
     }
-    public void setAvionAsignado(Avion avionAsignado) {
+    public void setAvionAsignado(Avion avionAsignado) {//Metodo para asignar el avion a la puerta
         avionesEmbarque.add(avionAsignado);
         this.avionAsignado = avionAsignado;
     }
@@ -125,7 +127,7 @@ public class PuertaEmbarque {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
-    public List<Avion> getAvionesEmbarque() {
+    public List<Avion> getAvionesEmbarque() {//Metodo que devuelve el avion asignado en forma de lista
         return avionesEmbarque;
     }
     

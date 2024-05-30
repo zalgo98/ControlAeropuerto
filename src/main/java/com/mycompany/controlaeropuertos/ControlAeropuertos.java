@@ -39,6 +39,7 @@ public class ControlAeropuertos {
                 aeropuerto_Barcelona.pausaSiEsNecesario();
                 aeropuerto_Madrid.pausaSiEsNecesario();
                 if (i < 4000) {
+                    //Creacion de los autobuses
                     if (i % 2 == 0) {
                         Autobus bus = new Autobus("B-" + String.format("%04d", i), aeropuerto_Madrid);
                         Registro.logEvent("["+ aeropuerto_Madrid.getNombre()+ "]"+" Autobus " + bus.IdBus() + " creado en " + aeropuerto_Madrid.getNombre());
@@ -55,6 +56,7 @@ public class ControlAeropuertos {
                         e.printStackTrace();
                     }
                 }
+                //Creacion de los aviones
                 if (i % 2 == 0) {
                     String id = generateRandomId(i);
                     int capacidad = ThreadLocalRandom.current().nextInt(100, 301);

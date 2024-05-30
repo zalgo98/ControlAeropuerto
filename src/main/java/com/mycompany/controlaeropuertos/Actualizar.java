@@ -14,7 +14,7 @@ class Actualizar extends Thread {
         this.campoTexto = campoTexto;
         this.nombresAviones = new StringBuilder();
     }
-
+    //Metodo para actualizar las zonas por las que va el avion
     @Override
     public void run() {
         while (true) {

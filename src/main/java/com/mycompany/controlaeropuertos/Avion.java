@@ -25,14 +25,6 @@ public class Avion extends Thread {
     private int capacidad;
     private int pasajeros = 0;
 
-    /**
-     * Crea una instancia de Avion con el ID, aeropuerto de origen, aeropuerto de destino y capacidad especificados.
-     *
-     * @param id                 El ID del avión.
-     * @param aeropuertoOrigen   El aeropuerto de origen del avión.
-     * @param aeropuertoDestino  El aeropuerto de destino del avión.
-     * @param capacidad          La capacidad máxima de pasajeros del avión.
-     */
     public Avion(String id, Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino, int capacidad) {
         this.id = id;
         this.aeropuertoDestino = aeropuertoDestino;

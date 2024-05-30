@@ -12,20 +12,14 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author gonzalo
  */
-/**
- * La clase Pista representa una pista de aterrizaje en un aeropuerto.
- */
+
 public class Pista {
     private boolean disponible;
     private int idPista;
     private Avion avionAsignado;
     private final ReentrantLock lock;
 
-    /**
-     * Crea una nueva instancia de la clase Pista.
-     * 
-     * @param idPista el identificador de la pista
-     */
+
     public Pista(int idPista) {
         this.disponible = true;
         this.lock = new ReentrantLock();

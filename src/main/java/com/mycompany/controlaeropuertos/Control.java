@@ -16,6 +16,8 @@ public class Control extends javax.swing.JFrame {
     
     private final Aeropuerto aeropuerto_Madrid;
     private final Aeropuerto aeropuerto_Barcelona;
+    
+    //Variables para los hilos de las zonas
     private Actualizar actuHangarMa;
     private Actualizar actuEstaMa;
     private Actualizar actuRodajeMa;
@@ -58,6 +60,7 @@ public class Control extends javax.swing.JFrame {
                         actualizarBus(bus, Bus_ciudad);
                     }
                 }
+                //Creacion de los hilos para las zonas en Madrid
                 actuHangarMa= new Actualizar(aeropuerto_Madrid.getHangar().getAviones(), Hangar);
                 actuHangarMa.start();
                 actuEstaMa= new Actualizar(aeropuerto_Madrid.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento);
@@ -84,10 +87,7 @@ public class Control extends javax.swing.JFrame {
             
                 
             
-             // Barcelona
-
-            synchronized(aeropuerto_Barcelona){
-               
+     // Barcelona
 
                 pasajerosB.setText(String.valueOf(aeropuerto_Barcelona.getPasajerosDisponibles()));
 
@@ -98,6 +98,7 @@ public class Control extends javax.swing.JFrame {
                     actualizarBus(bus, BusCBarcelona);
                 }
                 }
+                //Creacion de los hilos para la zona de Barcelona
                 actuHangarBa= new Actualizar(aeropuerto_Barcelona.getHangar().getAviones(), Hangar1);
                 actuHangarBa.start();
                 actuEstaBa= new Actualizar(aeropuerto_Barcelona.getAreaEstacionamiento().getAvionesEnEspera(), Estacionamiento1);
@@ -119,7 +120,7 @@ public class Control extends javax.swing.JFrame {
                 }
                 actuTallerBa= new Actualizar(aeropuerto_Barcelona.getTaller().getAvionesEnIspeccion(), Taller2);
                 actuTallerBa.start();
-            }
+            
 
                 // aerovias
                 M_B.setText(aeropuerto_Madrid.getAerovia().avionesAerolinea());
@@ -127,7 +128,7 @@ public class Control extends javax.swing.JFrame {
 
             
     }
-    public void actualizarBus(Autobus bus, JTextField textoBus) {
+    public void actualizarBus(Autobus bus, JTextField textoBus) {// Metodo para actualizar los autobuses
     if (bus != null) {
         if (bus.getIda() && bus.getPasajerosEnBus_Ida() > 0) {
             textoBus.setText(bus.IdBus() + "(" + bus.getPasajerosEnBus_Ida() + ")");

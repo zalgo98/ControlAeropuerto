@@ -17,6 +17,7 @@ public class InterfazCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form InterfazCliente
+     * 
      * @throws RemoteException 
      */
     public void Actualizar(Interfaz_servidor cliente, int pasajerosMadrid, int pasajerosBarcelona, int avionesHangarMadrid, int avionesHangarBarcelona, int avionesTallerMadrid, int avionesTallerBarcelona, int avionesEstacionadosMadrid, int avionesEstacionadosBarcelona, int avionesRodajeMadrid, int avionesRodajeBarcelona, String avionesEnVueloM, String avionesEnVueloB) throws RemoteException {

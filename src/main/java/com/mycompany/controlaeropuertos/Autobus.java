@@ -63,7 +63,7 @@ public class Autobus extends Thread{
     public boolean getIda() {
         return ida;
     }
-    public int generarPasajeros() {
+    public int generarPasajeros() { //Metodo para generar los pasajeros de forma aleatoria entre 0 y 50
         return random.nextInt(51);
     }
     public String IdBus() {

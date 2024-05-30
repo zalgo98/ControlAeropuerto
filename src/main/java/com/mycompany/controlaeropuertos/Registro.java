@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+//Clase para logs
+
 public class Registro {
     private static final String LOG_FILE = "evolucionAeropuerto.txt";
 

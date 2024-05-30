@@ -36,20 +36,28 @@ public class Aeropuerto {
         this.aerovia = aerovia;
         hangar = new Hangar();
         taller = new Taller();
+        areaEstacionamiento = new AreaEstacionamiento();
+        areaRodaje = new AreaRodaje(this);
+        
+        //Creacion de puerta de embarque
         puertasEmbarque = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             puertasEmbarque.add(new PuertaEmbarque(i));
         }
+        //Creacion de pistas
         pistas = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             pistas.add(new Pista(i));
         }
-        areaEstacionamiento = new AreaEstacionamiento();
-        areaRodaje = new AreaRodaje(this);
+        
         aviones = new ArrayList<>();
         autobuses = new ArrayList<>();
         avionesEnTaller = new ArrayList<>();
+        
+        //Reserva de la puerta 1 para el embarque
         this.puertaEmbarque= puertasEmbarque.get(0);
+        
+        //Reserva de la puerta 6 para el desmbarque
         this.puertaDesembarque= puertasEmbarque.get(5);
 
     }
@@ -87,13 +95,13 @@ public class Aeropuerto {
                 pausaSiEsNecesario();
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 3001));
                 areaRodaje.saleDeAreaRodaje(avion);
-                pista.ocuparPista(avion);
+                pista.ocuparPista(avion); //Se ocupa la pista cuando se le ha asignado una
                 pausaSiEsNecesario();
                 Registro.logEvent(" [ " + nombre + " ] " + "Pista " + pista.getIdPista() + " ocupada por avion " + avion.Id());              
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5001));
                 pausaSiEsNecesario();
                 Registro.logEvent(" [ " + origen.getNombre() + " ] " + "Despegando avion " + avion.Id());
-                pista.liberarPista();
+                pista.liberarPista(); //Se libera cuando despega el avion
                 Registro.logEvent(" [ " + nombre+ " ] " + "Pista " + pista.getIdPista() + " liberada por avion " + avion.Id());
 
             
@@ -125,7 +133,7 @@ public class Aeropuerto {
        
     }
 
-    public Pista solicitarPista(Avion avion) {
+    public Pista solicitarPista(Avion avion) { //Metodo para solicitar la pista libre
         for (Pista pista : pistas) {
             if (pista.estaDisponible()) {
                 return pista;
@@ -147,17 +155,17 @@ public class Aeropuerto {
 
     public void desembarcarPasajeros(Avion avion) throws InterruptedException {// Metodo que simula el desembarque de pasajeros de un avión
         pausaSiEsNecesario();
-        PuertaEmbarque puertaEmbarque = areaRodaje.solicitarPuertaEmbarque(avion);// Solicitar una puerta de embarque
+        PuertaEmbarque puerta = areaRodaje.solicitarPuertaEmbarque(avion);// Solicitar una puerta de embarque
         pausaSiEsNecesario();
-        if (puertaEmbarque != null) {
+        if (puerta != null) {
             pausaSiEsNecesario();
             areaRodaje.saleDeAreaRodaje(avion);// Salir del área de rodaje
-            puertaEmbarque.setAvionAsignado(avion);// Asignar el avión a la puerta de embarque
+            puerta.setAvionAsignado(avion);// Asignar el avión a la puerta de embarque
             Thread.sleep(ThreadLocalRandom.current().nextInt(3000, 5001)); // Tiempo de viaje entre la pista y la puerta de embarque
             pausaSiEsNecesario();
-            puertaEmbarque.desembarcarAvion(this);// Desembarcar pasajeros del avión  
+            puerta.desembarcarAvion(this);// Desembarcar pasajeros del avión  
             pausaSiEsNecesario();
-            puertaEmbarque.liberarPuerta(puertaEmbarque);// Liberar la puerta de embarque
+            puerta.liberarPuerta(puerta);// Liberar la puerta de embarque
             areaEstacionamiento.realizarComprobaciones(avion);// Realizar comprobaciones en el área de estacionamiento
         }
     }

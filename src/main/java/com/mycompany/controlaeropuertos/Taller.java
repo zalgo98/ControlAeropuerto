@@ -26,7 +26,7 @@ class Taller {
         avionesEnTaller=0;
     }
 
-    public synchronized void solicitarInspeccion(Avion avion) throws InterruptedException {
+    public synchronized void solicitarInspeccion(Avion avion) throws InterruptedException {//Metodo que espera hasta que haya espacion en el taller
         avion.getAeropuertoDestino().pausaSiEsNecesario();
         semaforo.acquire(); // Adquiere el semáforo antes de entrar al taller
         try {
@@ -44,7 +44,7 @@ class Taller {
         realizarInspeccion(avion);
     }
 
-    public synchronized void realizarInspeccion(Avion avion) throws InterruptedException  {
+    public synchronized void realizarInspeccion(Avion avion) throws InterruptedException  {//Metodo para realizar la inspeccion del avion
         avion.getAeropuertoDestino().pausaSiEsNecesario();
         Registro.logEvent(" [ "+ avion.getAeropuertoDestino().getNombre()+ " ] " +"Realizando inspección en el avión " + avion.Id());
         avionesEnIspeccion.add(avion);

@@ -6,11 +6,11 @@ import java.rmi.Naming;
 
 public class Cliente {
     public static void main(String[] args) {
-        InterfazCliente cliente = new InterfazCliente();
+        InterfazCliente cliente = new InterfazCliente();//Inicializa la interfaz del cliente
         cliente.setVisible(true);
         try {
             // Se obtiene la referencia al objeto remoto
-            Interfaz_servidor server = (Interfaz_servidor) Naming.lookup("//localhost/ObjetRMI");
+            Interfaz_servidor server = (Interfaz_servidor) Naming.lookup("//localhost/ObjetRMI");// Realiza la conexion con el servidor
             System.out.println("Conectado al servidor");
             // Bucle principal
             while (true) {

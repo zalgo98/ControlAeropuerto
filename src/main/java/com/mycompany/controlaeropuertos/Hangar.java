@@ -27,7 +27,7 @@ class Hangar {
         Registro.logEvent(" [ "+avion.getAeropuertoOrigen().getNombre()+" ] "+"Avion " + avion.Id() + " sale de hangar");
         aviones.remove(avion);
     }
-    public List<Avion> getAviones() {
+    public List<Avion> getAviones() {//Metodo para obtener una lista de los aviones en el hangar
         return aviones;
     }
     public Avion getAvion(String id) {
